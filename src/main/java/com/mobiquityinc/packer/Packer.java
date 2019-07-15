@@ -25,7 +25,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.ThreadPoolExecutor;
 
 import static com.mobiquityinc.packer.validation.ValidationRule.allOf;
 import static java.util.stream.Collectors.toList;
@@ -67,6 +66,11 @@ public class Packer implements AutoCloseable {
         this(DEFAULT_THREAD_POOL_SIZE, DEFAULT_TASK_VALIDATION_RULE);
     }
 
+    @Override
+    public void close() throws Exception {
+        this.executorService.shutdownNow();
+    }
+
     /**
      * Solve packaging problem for the given list of tasks. For each task it creates {@link CallablePackTask}
      * and submits to the executor service to do work in a separate thread. When all tasks are submitted it's
@@ -89,11 +93,6 @@ public class Packer implements AutoCloseable {
             }
         }
         return result;
-    }
-
-    @Override
-    public void close() throws Exception {
-        this.executorService.shutdownNow();
     }
 
     /**
@@ -123,9 +122,9 @@ public class Packer implements AutoCloseable {
     protected static String pack(InputStream inputStream) throws APIException {
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         try (
-            final PackTaskReader reader = new PackTaskReader(inputStream);
-            final Packer packer = new Packer();
-            final PackageWriter writer = new PackageWriter(out);) {
+            PackTaskReader reader = new PackTaskReader(inputStream);
+            Packer packer = new Packer();
+            PackageWriter writer = new PackageWriter(out);) {
             final List<PackTask> tasks = reader.readAll();
             packer.pack(tasks).forEach(writer::write);
         } catch (APIException e) {
@@ -139,7 +138,7 @@ public class Packer implements AutoCloseable {
     /**
      * Task to submit for execution in a separate thread. Solves the given task and returns built package.
      */
-    private static class CallablePackTask implements Callable<Package> {
+    private static final class CallablePackTask implements Callable<Package> {
 
         private static final ValidationRule<PackTask> UP_TO_15_THINGS = new MaxThingsNumberRule(15);
 

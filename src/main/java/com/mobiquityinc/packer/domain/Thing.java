@@ -38,4 +38,9 @@ public class Thing {
             Objects.equals(weight, thing.weight) &&
             Objects.equals(cost, thing.cost);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(index, weight, cost);
+    }
 }

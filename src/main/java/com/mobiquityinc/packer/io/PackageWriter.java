@@ -22,6 +22,11 @@ public class PackageWriter implements AutoCloseable {
         this(out, PackageWriter::defaultFormatter);
     }
 
+    /**
+     * Writes pack to the underlying output.
+     *
+     * @param pack pack to write
+     */
     public void write(Package pack) {
         writer.println(defaultFormatter(pack));
     }

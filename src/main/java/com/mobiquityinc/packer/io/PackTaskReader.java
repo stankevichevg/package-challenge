@@ -26,10 +26,21 @@ public class PackTaskReader implements AutoCloseable {
         this.scanner = new Scanner(is);
     }
 
+    /**
+     * Checks if reader has something to read.
+     *
+     * @return <code>true</code> if reader has something to read else returns <code>false</code>
+     */
     public boolean hasNext() {
         return scanner.hasNextLine();
     }
 
+    /**
+     * Reads next task.
+     *
+     * @return Read task.
+     * @throws APIException if something is going wrong
+     */
     public PackTask readNext() throws APIException {
         if (!hasNext()) {
             throw new IllegalStateException("All tasks has been already read");
@@ -41,6 +52,12 @@ public class PackTaskReader implements AutoCloseable {
         return new PackTask(weight, things);
     }
 
+    /**
+     * Reads all tasks from the source.
+     *
+     * @return list of read tasks
+     * @throws APIException if something is going wrong
+     */
     public List<PackTask> readAll() throws APIException {
         final List<PackTask> tasks = new ArrayList<>();
         while (hasNext()) {

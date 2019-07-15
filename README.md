@@ -1,3 +1,5 @@
+[![Build Status](https://api.travis-ci.org/stankevichevg/package-challenge.svg?branch=master)](https://travis-ci.org/stankevichevg/package-challenge)
+
 # Task
 
 You want to send your friend a package with different things.
