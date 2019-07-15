@@ -1,4 +1,5 @@
 [![Build Status](https://api.travis-ci.org/stankevichevg/package-challenge.svg?branch=master)](https://travis-ci.org/stankevichevg/package-challenge)
+[![codecov](https://codecov.io/gh/stankevichevg/package-challenge/branch/master/graph/badge.svg)](https://codecov.io/gh/stankevichevg/package-challenge)
 
 # Task
 
