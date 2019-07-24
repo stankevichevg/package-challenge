@@ -164,8 +164,7 @@ public class Packer implements AutoCloseable {
             double bestCost = 0;
             double bestWeight = Double.MAX_VALUE;
             int bestPack = 0;
-            // use the fact that we can have up to 15 elements (use bits of short instead of int)
-            for (short i = 1; i < (i << task.getThings().size()); i++) {
+            for (short i = 1; i < (1 << task.getThings().size()); i++) {
                 double costSum = 0;
                 double weightSum = 0;
                 for (short j = 0; j < task.getThings().size(); j++) {
